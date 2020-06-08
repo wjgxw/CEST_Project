@@ -3,8 +3,11 @@ newproject is a project for PROPELLER CEST
 
 CEST_simu_new
 step1: synthesis the CEST images;
+
 step2: validate the synthesis data;
+
 step3: sampling the CEST images with propeller scheme and saved the data for trainning;
+
 step4,5: experiment data processing.
 
 gen_sample:
