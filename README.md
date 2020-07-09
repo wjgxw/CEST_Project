@@ -1,6 +1,6 @@
 # CEST_Project
 newproject is a project for PROPELLER CEST
-
+CEST  deep learning
 CEST_simu_new
 step1: synthesis the CEST images;
 
