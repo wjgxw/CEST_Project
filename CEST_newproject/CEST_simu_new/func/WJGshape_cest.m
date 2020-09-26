@@ -235,14 +235,23 @@ filename = [dirname,dirs(frame_i).name];
 II1 = double(rgb2gray(imread(filename)))/255;% 
 II1 = abs(imresize(II1,[row,col],'nearest'));
 II1 = imfilter(II1,filter_kernel','replicate');
+tex = new_mask.*II1*ratio+(new_mask*(1-ratio));
 for loopi = 1:slice
     select_ppm = floor(length(omega)/(slice-1))*(loopi-1)+1;
-    temp_cest= (new_mask.*II1*ratio+(new_mask*(1-ratio))).*Lof(:,:,select_ppm)*decay;
+    temp_cest= tex.*Lof(:,:,select_ppm)*decay;
     cest_image_out(:,:,loopi) = temp_cest+cest_image(:,:,loopi);
 end
 
-cest_effect_out(:,:,1) = amplitude_amide*decay./(max(cest_image_out(:,:,:),[],3)+eps)+cest_effect(:,:,1);
-cest_effect_out(:,:,2) = amplitude_amine*decay./(max(cest_image_out(:,:,:),[],3)+eps)+cest_effect(:,:,2);
+cest_effect_out(:,:,1) = tex.*amplitude_amide*decay./(max(cest_image_out(:,:,:),[],3)+eps)+cest_effect(:,:,1);
+cest_effect_out(:,:,2) = tex.*amplitude_amine*decay./(max(cest_image_out(:,:,:),[],3)+eps)+cest_effect(:,:,2);
+
+% amide_value=(amplitude_amide)./(Lof_m0(:,:,26));
+% amide_value(isnan(amide_value)) = 0;
+% cest_effect_out(:,:,1) =amide_value+cest_effect(:,:,1);
+% 
+% amine_value=(amplitude_amine)./Lof_m0(:,:,26);
+% amine_value(isnan(amine_value)) = 0;
+% cest_effect_out(:,:,2) = amine_value+cest_effect(:,:,2);
 
 % amine_value  = max(Lof_amine)-min(Lof_amine);
 % amine_value = 1/max(Lof)*amine_value;
